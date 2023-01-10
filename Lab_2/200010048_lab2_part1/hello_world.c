@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
         int child_pid = fork();
         if(child_pid == 0) printf("character: %c, PID: %d\n", hello[i++], getpid());
         else{
-            sleep(3);
+            sleep(rand()%4 + 1);
             break;
         }
     }
