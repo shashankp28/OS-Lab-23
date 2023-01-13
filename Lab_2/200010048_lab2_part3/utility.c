@@ -46,7 +46,7 @@ pid_t get_free_pid()
 			break;
 		}
   } while (t);					/* 't' = 0 means pid free */
-  printf("Minix: PID %d created\n", next_pid);
+  printf("Minix:  PID %d created\n", next_pid);
   return(next_pid);
 }
 
