@@ -1,0 +1,26 @@
+spawn completed
+---
+spawn completed
+---
+Write done: 1008000 in 16.5167, score 15257
+Read done: 1000004 in 5.2500, score 47619
+Copy done: 1000004 in 10.3167, score 24232
+fstime completed
+---
+Write done: 1008000 in 16.5167, score 15257
+Read done: 1000004 in 5.2500, score 47619
+Copy done: 1000004 in 10.4167, score 24000
+fstime completed
+---
+pipe completed
+---
+pipe completed
+---
+syscall completed
+---
+syscall completed
+---
+arithoh completed
+---
+arithoh completed
+---
