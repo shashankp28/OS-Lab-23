@@ -1,4 +1,4 @@
 #!/bin/sh
 ./arithoh.sh &
-./syscall.sh &
+./fstime.sh &
 wait
