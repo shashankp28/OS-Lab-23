@@ -1,0 +1,4 @@
+1. C/C++ implementations are acceptable
+
+2. The learning outcome for this assignment is that a student should understand what it takes to build an OS scheduler from scratch. what are the different data structures, different parameters that need to be tracked , what conditions need to be fulfilled for implementing the scheduling logic.  
+Also I am not sure what kind of library functions you are talking about.
