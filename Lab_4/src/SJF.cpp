@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
         {"waiting_time", vector<double>(no_of_procs_left, 0)},
         {"response_time", vector<double>(no_of_procs_left, 0)},
         {"penalty_ratio", vector<double>(no_of_procs_left, 0)},
-        {"system_throughput", vector<double>(no_of_procs_left, 0)}
+        {"system_throughput", vector<double>(no_of_procs_left, 0)},
+        {"arrival_time", vector<double>(no_of_procs_left, 0)},
     };
 
     vector<bool> arrived(no_of_procs_left, false);
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
             if(process.second.front() == clock && !arrived[process.first]){
                 process.second.pop();
                 Process *new_process = new Process(process.first, &process.second, true, clock);
+                metrics["arrival_time"][new_process->pid] = clock;
                 cpu_ready.push(new_process);
                 arrived[process.first] = true;
             }
@@ -57,7 +59,6 @@ int main(int argc, char *argv[])
 
         if(cpu.process == NULL && !cpu_ready.empty()){
             Process *current_process = cpu_ready.top();
-            metrics["waiting_time"][current_process->pid] += clock - current_process->previous_arrived_in_cpu_queue;
             cpu_ready.pop();
             if(!current_process->first_pop){
                 metrics["response_time"][current_process->pid] = clock - current_process->first_arrvied_in_cpu_queue;
@@ -84,6 +85,7 @@ int main(int argc, char *argv[])
                     no_of_procs_left--;
                     metrics["turnaround_time"][process_in_cpu->pid] = clock - process_in_cpu->first_arrvied_in_cpu_queue+1;
                     metrics["penalty_ratio"][process_in_cpu->pid] = (float)metrics["turnaround_time"][process_in_cpu->pid]/(float)process_in_cpu->actual_time;
+                    metrics["waiting_time"][process_in_cpu->pid] = metrics["turnaround_time"][process_in_cpu->pid] - process_in_cpu->cpu_burst;
                     total_procs_completed++;
                 }
                 else{
@@ -105,10 +107,10 @@ int main(int argc, char *argv[])
                     no_of_procs_left--;
                     metrics["turnaround_time"][process_in_io->pid] = clock - process_in_io->first_arrvied_in_cpu_queue+1;
                     metrics["penalty_ratio"][process_in_io->pid] = (float)metrics["turnaround_time"][process_in_io->pid]/(float)process_in_io->actual_time;
+                    metrics["waiting_time"][process_in_io->pid] = metrics["turnaround_time"][process_in_io->pid] - process_in_io->cpu_burst;
                     total_procs_completed++;
                 }
                 else{
-                    process_in_io->previous_arrived_in_cpu_queue = clock;
                     cpu_ready.push(process_in_io);
                     process_in_io->print();
                 }

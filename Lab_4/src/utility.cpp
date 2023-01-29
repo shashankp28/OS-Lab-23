@@ -21,22 +21,23 @@ void print_metrics(unordered_map<string, vector<double>> &metrics, string output
         }
     }
 
-    output_file<<"turnaround_time,waiting_time,response_time,penalty_ratio"<<endl;
+    output_file<<"arrival_time,turnaround_time,waiting_time,response_time,penalty_ratio"<<endl;
     int no_of_procs = metrics["turnaround_time"].size();
     for(int i=0; i<no_of_procs; i++){
-        output_file<<metrics["turnaround_time"][i]<<","<<metrics["waiting_time"][i]<<","<<metrics["response_time"][i]<<","<<metrics["penalty_ratio"][i]<<endl;
+        output_file<<metrics["arrival_time"][i]<<","<<metrics["turnaround_time"][i]<<
+                ","<<metrics["waiting_time"][i]<<","<<metrics["response_time"][i]<<","<<metrics["penalty_ratio"][i]<<endl;
     }
     output_file.close();
     cout<<setprecision(5);
-    cout<<"<-----------------------------------Metrics------------------------------------->"<<endl;
-    cout<<"|Process Number\t|Turnaround\t|Waiting\t|Response\t|Penalty Ratio\t|"<<endl;
+    cout<<"<-----------------------------------Metrics----------------------------------------------------->"<<endl;
+    cout<<"|Process Number\t|Arrival\t|Turnaround\t|Waiting\t|Response\t|Penalty Ratio\t|"<<endl;
     for(int i=0; i<no_of_procs; i++){
-        cout<<"---------------------------------------------------------------------------------"<<endl;
-        cout<<"|"<<i+1<<"\t\t|"<<metrics["turnaround_time"][i]<<"\t\t|"<<metrics["waiting_time"][i]<<"\t\t|"<<metrics["response_time"][i]<<"\t\t|"<<metrics["penalty_ratio"][i]<<"\t\t|"<<endl;
+        cout<<"-------------------------------------------------------------------------------------------------"<<endl;
+        cout<<"|"<<i+1<<"\t\t|"<<metrics["arrival_time"][i]<<"\t\t|"<<metrics["turnaround_time"][i]<<"\t\t|"<<metrics["waiting_time"][i]<<"\t\t|"<<metrics["response_time"][i]<<"\t\t|"<<metrics["penalty_ratio"][i]<<"\t\t|"<<endl;
     }
-    cout<<"---------------------------------------------------------------------------------"<<endl;
-    cout<<"|Average\t|"<<avg_turnaround_time/no_of_procs<<"\t\t|"<<avg_waiting_time/no_of_procs<<"\t\t|"<<avg_response_time/no_of_procs<<"\t\t|"<<avg_penalty_ratio/no_of_procs<<"\t\t|"<<endl;
-    cout<<"<------------------------------------------------------------------------------->"<<endl;
+    cout<<"-------------------------------------------------------------------------------------------------"<<endl;
+    cout<<"|Average\t|"<<"\t\t|"<<avg_turnaround_time/no_of_procs<<"\t\t|"<<avg_waiting_time/no_of_procs<<"\t\t|"<<avg_response_time/no_of_procs<<"\t\t|"<<avg_penalty_ratio/no_of_procs<<"\t\t|"<<endl;
+    cout<<"<----------------------------------------------------------------------------------------------->"<<endl;
     cout<<endl;
     cout<<"System Throughput: "<< metrics["system_throughput"][0] <<endl;
     return;
@@ -78,13 +79,14 @@ void read_process_file(string file_path, unordered_map<int, queue<int>> &all_pro
 }
 
 
-void preempt_existing_process(Process **cpu_process, Process **new_process){
+bool preempt_existing_process(Process **cpu_process, Process **new_process){
     if(*cpu_process != NULL){
         if((*cpu_process)->remaining_time > (*new_process)->remaining_time){
             Process *temp = *cpu_process;
             *cpu_process = *new_process;
             *new_process = temp;
+            return true;
         }
     }
-    return;
+    return false;
 }

@@ -10,7 +10,7 @@ class Process{
         int remaining_time;
         std::queue<int> *burst_times;
         bool is_cpu;
-        int previous_arrived_in_cpu_queue;
+        int cpu_burst=0;
         int first_arrvied_in_cpu_queue;
         bool first_pop = false;
         int actual_time = 0;

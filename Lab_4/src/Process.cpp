@@ -9,8 +9,6 @@ Process::Process(int pid, std::queue<int> *burst_times, bool is_cpu, int first_a
     this->remaining_time = burst_times->front();
     this->is_cpu = is_cpu;
     this->first_arrvied_in_cpu_queue = first_arrvied_in_cpu_queue;
-    this->previous_arrived_in_cpu_queue = first_arrvied_in_cpu_queue;
-    this->actual_time = 0;
 }
 
 void Process::print()
